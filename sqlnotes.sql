@@ -112,8 +112,6 @@ USING(common_field)
 -- SUM
 -- I used this for an example where there were duplicates
 -- of one column (name), so I summed an integer column
--- self join example?
-SELECT field, count(*), sum(int_field)
-from table where field in
-(select distinct field from table)
-group by field;
+SELECT field, COUNT(*), SUM(int_field)
+FROM table
+GROUP BY field;
