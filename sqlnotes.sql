@@ -1,15 +1,12 @@
 /*
-Clauses:
-    between
+Clauses Left:
     count
     create
     cross join
     drop
-    inner join
     natural join
     on
     show
-    subqueries
     sum
     temporary
     using
@@ -18,10 +15,10 @@ Clauses:
     */
 
  -- EXAMPLES --
+
  -- ORDER BY
  SELECT fields FROM table
  ORDER BY field ASC | DESC;
-
 
  -- DISTINCT
  SELECT DISTINCT fields FROM table;
@@ -81,7 +78,7 @@ WHERE table2.field = value;
 -- outcome comparable to last example
 SELECT fields FROM table1
 WHERE field in (SELECT field in table2
-				WHERE condition)
+                WHERE condition)
 [ORDER BY field ASC|DESC];
 
 -- select fields where conditions include being min(), max(), or avg()
@@ -92,9 +89,9 @@ WHERE field in (SELECT max(field) FROM table);
 -- the values of that column where another column in the row
 -- matches one value, but cannot ever match another value (???)
 -- the example in class was get the student ids for the students
--- who applied to CS, but never applied to ECE
+-- who applied to CS, but never applied to EE
 SELECT DISTINCT fields FROM table
 WHERE field1 NOT IN 
-	(SELECT field1 from table
-	 WHERE field2 = value)
+    (SELECT field1 from table
+     WHERE field2 = value)
 AND field2 = othervalue;
