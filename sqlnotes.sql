@@ -1,16 +1,11 @@
 /*
 Clauses Left:
-    count
     create
     cross join
     drop
     natural join
-    on
     show
-    sum
     temporary
-    using
-    as
     self join
     */
 
@@ -64,26 +59,27 @@ Clauses Left:
 
  -- HAVING
  -- must come after GROUP BY
+ -- works with count(*)
  SELECT field1, min(field2) FROM table
  GROUP BY field1
  HAVING min(field2) BETWEEN num1 AND num2;
 
--- INNER JOIN with conditions
+-- INNER JOIN with conditions and ON
 SELECT DISTINCT fields FROM table1
 INNER JOIN table2
-on table1.keyfield = table2.keyfield
+ON table1.keyfield = table2.keyfield
 WHERE table2.field = value;
 
 -- subquery
 -- outcome comparable to last example
 SELECT fields FROM table1
-WHERE field in (SELECT field in table2
+WHERE field IN (SELECT field IN table2
                 WHERE condition)
 [ORDER BY field ASC|DESC];
 
 -- select fields where conditions include being min(), max(), or avg()
 SELECT fields FROM table
-WHERE field in (SELECT max(field) FROM table);
+WHERE field IN (SELECT max(field) FROM table);
 
 -- select where one column's values can repeat, but we want
 -- the values of that column where another column in the row
@@ -92,6 +88,32 @@ WHERE field in (SELECT max(field) FROM table);
 -- who applied to CS, but never applied to EE
 SELECT DISTINCT fields FROM table
 WHERE field1 NOT IN 
-    (SELECT field1 from table
+    (SELECT field1 FROM table
      WHERE field2 = value)
 AND field2 = othervalue;
+
+-- COUNT
+-- returns number of rows returned by the query
+SELECT COUNT(*) FROM table
+
+-- USING
+SELECT DISTINCT a.field, b.field
+FROM table1 a JOIN table2 b
+USING(common_field)
+[WHERE condition];
+
+-- AS
+-- can be used to rename columnds or tables
+SELECT DISTINCT CONCAT(a.field, " ", b.field) AS data
+FROM table1 AS a JOIN table2 AS b
+USING(common_field)
+[WHERE conditon];
+
+-- SUM
+-- I used this for an example where there were duplicates
+-- of one column (name), so I summed an integer column
+-- self join example?
+SELECT field, count(*), sum(int_field)
+from table where field in
+(select distinct field from table)
+group by field;
